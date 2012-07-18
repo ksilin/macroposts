@@ -25,7 +25,15 @@ gem 'jquery-rails'
 
 group :development do
 	gem 'rspec-rails', '2.10.1'
-end 
+end
+
+group :test do
+  gem 'rspec'
+  gem 'capybara'    # as of 17.07.12 -> 1.1.2
+  gem 'webrat'      # as of 17.07.12 -> 0.7.3
+end
+
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
