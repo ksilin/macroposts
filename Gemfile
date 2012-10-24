@@ -6,7 +6,7 @@ gem 'rails', '3.2.6'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
+# do I also need the sqlite3-ruby gem ? (see p.72 of RailsByEx))
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -24,6 +24,7 @@ gem 'jquery-rails'
 
 
 group :development do
+  #this is needed for the rspec specific generators in dev ()
 	gem 'rspec-rails', '2.10.1'
 end
 
