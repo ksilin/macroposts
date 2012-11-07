@@ -59,3 +59,16 @@ a:visited {
     -webkit-border-radius: 10px;
     border-radius: 10px;
 }
+
+footer {
+    text-align: center;
+    margin-top: 10px;
+    width: 710px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* overrides the float: right rule for navs*/
+footer nav {
+    float: none;
+}
