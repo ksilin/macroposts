@@ -9,6 +9,10 @@ describe PagesController do
   # it's a trade-off between execution speed and missing some errors in the views
   render_views
 
+  before(:each) do
+     @title_base = "Ruby on Rails Tutorial Sample App |"
+  end
+
   describe "GET 'home'" do
     it "returns http success" do
       p "attempting to get home page"
@@ -20,7 +24,7 @@ describe PagesController do
     it "has the right tile" do
       get 'home'
       # partial content is enough for have_selector to match
-      response.should have_selector("title", :content => "Ruby on Rails Tutorial Sample App | Home")
+      response.should have_selector("title", :content => @title_base + " Home")
     end
 
   end
@@ -35,7 +39,7 @@ describe PagesController do
     it "has the right tile" do
       get 'contact'
       # partial content is enough for have_selector to match
-      response.should have_selector("title", :content => "Ruby on Rails Tutorial Sample App | Contact")
+      response.should have_selector("title", :content => @title_base + " Contact")
     end
   end
 
@@ -49,8 +53,22 @@ describe PagesController do
     it "has the right tile" do
       get 'about'
       # partial content is enough for have_selector to match
-      response.should have_selector("title", :content => "Ruby on Rails Tutorial Sample App | About")
+      response.should have_selector("title", :content => @title_base + " About")
     end
   end
 
+  describe "GET 'help'" do
+    it "returns http success" do
+      p "attempting to get help page"
+      get 'help'
+      response.should be_success
+    end
+
+    it "has the right tile" do
+      get 'help'
+      # partial content is enough for have_selector to match
+      response.should have_selector("title", :content => @title_base + " Help")
+    end
+  end
+  
 end
