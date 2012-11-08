@@ -15,7 +15,7 @@ Microposts::Application.routes.draw do
 
   # these matches also create named routes:
   # about_path '/about' and
-  # about_url 'http://localhost:3000/about' (localohost will be replaced on deployment)
+  # about_url 'http://localhost:3000/about' (localhost will be replaced on deployment)
   match '/contact' , :to => 'pages#contact'
   match '/about' , :to => 'pages#about'
   match '/help' , :to => 'pages#help'
