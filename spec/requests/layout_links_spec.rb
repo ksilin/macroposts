@@ -22,6 +22,8 @@ describe "LayoutLinks" do
     response.should have_selector('title', :content => "Help")
   end
 
+  #note that this page is not in the pages controller, but in the users controller
+  # this is an advantage of integration tests - they can access more than one ctrlr
   it "should have a signup page at /signup" do
     get '/signup'
     response.should have_selector('title', :content => "Sign Up")

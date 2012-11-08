@@ -19,6 +19,7 @@ Microposts::Application.routes.draw do
   match '/contact' , :to => 'pages#contact'
   match '/about' , :to => 'pages#about'
   match '/help' , :to => 'pages#help'
+  match '/signup', :to => 'users#new'
 
   #gives root_path & root_url
   root :to => 'pages#home'
