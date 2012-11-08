@@ -1,5 +1,7 @@
 Microposts::Application.routes.draw do
 
+  get "users/new"
+
   # meaning a get tho this sub-URi triggers the home action of the pages ctrlr
   # and then renders the view (pages/home.html.erb per default)
   #get "pages/home"
