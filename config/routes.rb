@@ -2,13 +2,24 @@ Microposts::Application.routes.draw do
 
   # meaning a get tho this sub-URi triggers the home action of the pages ctrlr
   # and then renders the view (pages/home.html.erb per default)
-  get "pages/home"
+  #get "pages/home"
 
-  get "pages/contact"
+  #get "pages/contact"
 
-  get "pages/about"
+  #get "pages/about"
 
-  get "pages/help"
+  #get "pages/help"
+
+
+  # these matches also create named routes:
+  # about_path '/about' and
+  # about_url 'http://localhost:3000/about' (localohost will be replaced on deployment)
+  match '/contact' , :to => 'pages#contact'
+  match '/about' , :to => 'pages#about'
+  match '/help' , :to => 'pages#help'
+
+  #gives root_path & root_url
+  root :to => 'pages#home'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
