@@ -26,6 +26,7 @@ gem 'jquery-rails'
 group :development do
   #this is needed for the rspec specific generators in dev ()
 	gem 'rspec-rails', '2.10.1'
+  #gem 'annotate_models' , '2.0.1'
 end
 
 group :test do
