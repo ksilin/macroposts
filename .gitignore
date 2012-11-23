@@ -15,5 +15,7 @@
 /tmp
 
 #ignore .idea/files
-
 .idea
+
+#ignore the webrat log
+webrat.log
