@@ -1,6 +1,10 @@
+
 Microposts::Application.routes.draw do
 
-  get "users/new"
+  # switching REST on for users, adding named routes for index show new create update destroy and edit actions
+
+  resources :users
+
 
   # meaning a get tho this sub-URi triggers the home action of the pages ctrlr
   # and then renders the view (pages/home.html.erb per default)

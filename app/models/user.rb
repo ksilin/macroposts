@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
 
   # :presence => true is a one-values hash. curly braces are optional of the hash is hte last arg.
   validates :name, :presence => true, :length => {:maximum => 50}
-  validates :email, :presence => true, :format => {:with => email_regex}, :uniqueness => true
+  # funny, but validates :uniqueness does not guarantee uniqueness - the validation happens in mem,
+  # so two users with same email would be valid in mem, and then both would be saved to the DB
+  # so we have to enforce uniqueness in the DB with a uniqueness index
+  validates :email, :presence => true, :format => {:with => email_regex}, :uniqueness => {:case_sensitive => false}
   # can also be written as validates(:name, {:presence => true})
 end

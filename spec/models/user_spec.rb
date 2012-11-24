@@ -8,24 +8,24 @@ describe User do
 
   it "should create a new instance given valid attributes" do
     # create! works just like create but raises an RecordInvalid exception on failure
-     User.create!(@attr)
+    User.create!(@attr)
   end
 
-    it "should require a name"  do
-      no_name = User.create(@attr.merge({:name =>""}))
-      # rspec allows the use of any boolean method like *be_valid* instead of *valid?*
-      # the recipe: drop the question mark and prepend a 'be_'
-      # equiv: no_name.valid?.should_not == true
-      no_name.should_not be_valid
-    end
+  it "should require a name" do
+    no_name = User.create(@attr.merge({:name => ""}))
+    # rspec allows the use of any boolean method like *be_valid* instead of *valid?*
+    # the recipe: drop the question mark and prepend a 'be_'
+    # equiv: no_name.valid?.should_not == true
+    no_name.should_not be_valid
+  end
 
-  it "should require an email"  do
-    no_email = User.create(@attr.merge({:email =>""}))
+  it "should require an email" do
+    no_email = User.create(@attr.merge({:email => ""}))
     no_email.should_not be_valid
   end
 
   it "should reject too long names" do
-    name_too_long = User.create(@attr.merge({:name=>'a'* 51}))
+    name_too_long = User.create(@attr.merge({:name => 'a'* 51}))
     name_too_long.should_not be_valid
   end
 
@@ -51,5 +51,13 @@ describe User do
     dupe = User.new(@attr)
     dupe.should_not be_valid
   end
+
+  it "should reject email addresses identical up to case" do
+    upcased_email = @attr[:email].upcase
+    User.create!(@attr.merge(:email => upcased_email))
+    user_with_duplicate_email = User.new(@attr)
+    user_with_duplicate_email.should_not be_valid
+  end
+
 
 end
