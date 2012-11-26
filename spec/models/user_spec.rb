@@ -3,7 +3,7 @@ require 'spec_helper'
 describe User do
 
   before :each do
-    @attr = {:name => "me", :email => "me@me.so"}
+    @attr = {:name => "me", :email => "me@me.so", :password => "secret", :password_confirmation => "secret"}
   end
 
   it "should create a new instance given valid attributes" do
@@ -59,5 +59,62 @@ describe User do
     user_with_duplicate_email.should_not be_valid
   end
 
+  describe "password validations" do
 
+    it "should require a password" do
+      user = User.create(@attr.merge(:password => ""))
+      user.should_not be_valid
+    end
+    it "should require a matching password confirmation" do
+      user = User.create(@attr.merge(:password => ""))
+      user.should_not be_valid
+    end
+    it "should reject short passwords" do
+      user = User.create(@attr.merge({:password => "aaa", :password_confirmation => "aaa"}))
+      user.should_not be_valid
+    end
+    it "should reject long passwords" do
+      user = User.create(@attr.merge({:password => "a"*41, :password_confirmation => "a"*41}))
+      user.should_not be_valid
+    end
+  end
+
+  describe "password encryption" do
+
+    before :each do
+      @user = User.create(@attr)
+    end
+
+    it "should have an encrypted password" do
+      @user.should respond_to(:encrypted_password)
+    end
+
+    it "should set the encrypted password" do
+      @user.encrypted_password.should_not be_blank
+    end
+
+    describe "has_password? method" do
+      it "should be tre if passowrds match" do
+        @user.has_password?(@attr[:password]).should be_true
+      end
+      it "should be false if the passwords dont match" do
+        @user.has_password?(@attr["wrong"]).should be_false
+      end
+    end
+
+    describe "authenticate method" do
+      it "should return nil on password mismatch" do
+        user_authenticate = User.authenticate(@attr[:email], "wfawef")
+        user_authenticate.should be_nil
+      end
+      it "should return nil for email with no user" do
+        user_authenticate = User.authenticate("somefakeemeail", @attr[:password])
+        user_authenticate.should be_nil
+      end
+      it "should return the user on emal and password match" do
+        user_authenticate = User.authenticate(@attr[:email], @attr[:password])
+        user_authenticate.should == @user
+      end
+    end
+  end
 end
