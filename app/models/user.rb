@@ -24,9 +24,13 @@ class User < ActiveRecord::Base
   # TODO: what was the difference again between using the self and the @ here
   def self.authenticate(email, submitted_password)
 
+    # omitting the User. before he find_by_email method
     user = find_by_email(email)
     return nil if user.nil?
     return user if user.has_password? submitted_password
+    # omitting the else here, handling the case when the password didnt match
+    # int this case, the end of the method would have been reached, automatically returning nil
+    # simply putting nil in the last line would work identically
   end
 
   # class methods are defined using the self. or the

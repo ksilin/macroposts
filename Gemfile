@@ -33,6 +33,7 @@ group :test do
   gem 'rspec'
   gem 'capybara'    # as of 17.07.12 -> 1.1.2
   gem 'webrat'      # as of 17.07.12 -> 0.7.3
+  gem 'factory_girl_rails'
 end
 
 
