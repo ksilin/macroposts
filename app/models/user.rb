@@ -34,13 +34,15 @@ class User < ActiveRecord::Base
   # :confirmation => true automatically creates a password_confirmation attribute
   validates :password, :presence => true, :confirmation => true, :length => {:within => 6..40}
 
-  # TODO: what was the difference again between using the self and the @ here
   def self.authenticate(email, submitted_password)
 
     # omitting the User. before he find_by_email method
     user = find_by_email(email)
-    return nil if user.nil?
-    return user if user.has_password? submitted_password
+    user && user.has_password?(submitted_password) ? user : nil
+
+    #return nil if user.nil?
+    #return user if user.has_password? submitted_password
+
     # omitting the else here, handling the case when the password didnt match
     # int this case, the end of the method would have been reached, automatically returning nil
     # simply putting nil in the last line would work identically
