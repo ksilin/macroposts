@@ -3,6 +3,10 @@ This is the sample application for
 [*Ruby on Rails Tutorial: Learn Rails by Example*](http://railstutorial.org/)
 by [Michael Hartl](http://michaelhartl.com/).
 
+## 2012.11.28
+
+Added gravatar_img_tag, annotate, faker, will-paginate to Gemfile, using the gravatar tag and helper
+
 ## 2012.11.27
 
 It's probably not worth is to stub. The tests run a bit slower,as htey have to make the complete roundtrip to the DB,

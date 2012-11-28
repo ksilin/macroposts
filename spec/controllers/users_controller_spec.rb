@@ -21,6 +21,7 @@ describe UsersController do
     it "should start with a valid user" do
       @user.should be_valid
     end
+
     it "should be successful" do
 
       # we could have used @user.id here, but since rails automatically converts the entity to it's id
@@ -28,27 +29,42 @@ describe UsersController do
       get :show, :id => @user
       response.should be_success
     end
+
     it "should return the right user" do
       get :show, :id => @user
       #assigns takes a symbol and returns the controller instance var of teh same name
       assigns(:user).should == @user
-
-      # instead of assigns we can use stubbing:
-
     end
-  end
 
+    it "should have the user name as title" do
+      get :show, :id => @user
+      response.should have_selector('title', :content => @user.name)
+      end
+
+    it "should include the user name as header" do
+      get :show, :id => @user
+      response.should have_selector('h1', :content => @user.name)
+    end
+
+    it "should have a profile image" do
+      get :show, :id => @user
+      # the > syntax means, the img selector should be inside the h1 selector
+      # making the tests that specific/coupled might be problematic
+      response.should have_selector('h1>img', :class => "gravatar")
+    end
+
+  end
 
   describe "GET 'new'" do
     it "returns http success" do
       get :new
       response.should be_success
     end
-  end
 
-  it "should have the right title" do
-    get 'new'
-    response.should have_selector('title', :content => "Sign Up")
+    it "should have the right title" do
+      get :new
+      response.should have_selector('title', :content => "Sign Up")
+    end
   end
 
 end

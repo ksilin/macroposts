@@ -29,6 +29,8 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.3.2)
+    annotate (2.5.0)
+      rake
     arel (3.0.2)
     builder (3.0.4)
     capybara (1.1.2)
@@ -56,7 +58,10 @@ GEM
     factory_girl_rails (4.1.0)
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
+    faker (1.1.2)
+      i18n (~> 0.5)
     ffi (1.1.5)
+    gravatar_image_tag (1.1.3)
     hike (1.2.1)
     i18n (0.6.1)
     journey (1.0.4)
@@ -141,6 +146,7 @@ GEM
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
+    will_paginate (3.0.3)
     xpath (0.1.4)
       nokogiri (~> 1.3)
 
@@ -148,9 +154,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
   capybara
   coffee-rails (~> 3.2.1)
   factory_girl_rails
+  faker
+  gravatar_image_tag
   jquery-rails
   rails (= 3.2.6)
   rspec
@@ -159,3 +168,4 @@ DEPENDENCIES
   sqlite3
   uglifier (>= 1.0.3)
   webrat
+  will_paginate
