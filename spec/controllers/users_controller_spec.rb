@@ -39,7 +39,7 @@ describe UsersController do
     it "should have the user name as title" do
       get :show, :id => @user
       response.should have_selector('title', :content => @user.name)
-      end
+    end
 
     it "should include the user name as header" do
       get :show, :id => @user
@@ -65,6 +65,39 @@ describe UsersController do
       get :new
       response.should have_selector('title', :content => "Sign Up")
     end
+  end
+
+
+  describe "POST 'create'" do
+
+    describe "failure" do
+
+      before(:each) do
+        @attr = {
+            :name => "", :email => "", :password => "", :password_confirmation => ""
+        }
+      end
+
+      it "should not create a user" do
+
+        #TODO : what does this do?
+        lambda do
+          post :create, :user => @attr
+          # the rspec 'change' method returns the number of saved entities in the database
+          # this happens by calling the 'count' method of ActiveRecord
+        end.should_not change(User, :count)
+      end
+      it "should have the right tile" do
+        post :create, :user => @attr
+        response.should have_selector('title', :content => "Sign Up")
+      end
+      it "should render the 'new' page" do
+        post :create, :user => @attr
+        response.should render_template(:new)
+      end
+
+    end
+
   end
 
 end

@@ -16,4 +16,15 @@ class UsersController < ApplicationController
     @title = @user.name
   end
 
+  def create
+    # p params[:user]
+    @user = User.new(params[:user])
+    if @user.save
+
+    else
+      @title = 'Sign Up'
+      render :new
+    end
+  end
+
 end
