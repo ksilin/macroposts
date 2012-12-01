@@ -98,6 +98,34 @@ describe UsersController do
 
     end
 
+
+    describe "success" do
+
+      before(:each) do
+        @attr = {
+            :name => "Duckface", :email => "duck@face.com", :password => "secret", :password_confirmation => "secret"
+        }
+      end
+
+      it "should create a user" do
+        lambda do
+          post :create, :user => @attr
+        end.should change(User, :count).by(1)
+      end
+      it "should redirect to the user show page" do
+        post :create, :user => @attr
+        # in the controller we use @user, which is translated to user_path by rails. RSpec can't so that, so here we use user_path
+        response.should redirect_to(user_path(assigns(:user)))
+      end
+
+      it "shoud have a welcome message" do
+        post :create, :user => @attr
+        flash[:success].should =~ /welcome /i
+        #response.should have_selector(:success, :content => "Welcome") - doesnt work - the response is a redirect
+      end
+
+    end
+
   end
 
 end
