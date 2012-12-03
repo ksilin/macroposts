@@ -48,6 +48,13 @@ class User < ActiveRecord::Base
     # simply putting nil in the last line would work identically
   end
 
+  def self.authenticate_with_salt(id, cookie_salt)
+
+    # omitting the User. before he find_by_id method
+    user = find_by_id(id)
+    (user && user.salt == cookie_salt) ? user : nil
+  end
+
   # class methods are defined using the self. or the
   # class << self block, where all methods are class methods
 

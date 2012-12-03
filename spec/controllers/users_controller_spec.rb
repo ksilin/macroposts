@@ -73,9 +73,7 @@ describe UsersController do
     describe "failure" do
 
       before(:each) do
-        @attr = {
-            :name => "", :email => "", :password => "", :password_confirmation => ""
-        }
+        @attr = {:name => "", :email => "", :password => "", :password_confirmation => ""}
       end
 
       it "should not create a user" do
@@ -97,7 +95,6 @@ describe UsersController do
       end
 
     end
-
 
     describe "success" do
 
@@ -122,6 +119,11 @@ describe UsersController do
         post :create, :user => @attr
         flash[:success].should =~ /welcome /i
         #response.should have_selector(:success, :content => "Welcome") - doesnt work - the response is a redirect
+      end
+
+      it "should sign the user in on signup" do
+        post :create, :user => @attr
+        controller.should be_signed_in
       end
 
     end

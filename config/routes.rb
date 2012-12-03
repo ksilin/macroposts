@@ -1,9 +1,12 @@
 
 Microposts::Application.routes.draw do
 
+  get "sessions/new"
+
   # switching REST on for users, adding named routes for index show new create update destroy and edit actions
 
   resources :users
+  resources :sessions, :only=> [:new, :create, :destroy]
 
 
   # meaning a get tho this sub-URi triggers the home action of the pages ctrlr
@@ -24,6 +27,8 @@ Microposts::Application.routes.draw do
   match '/about' , :to => 'pages#about'
   match '/help' , :to => 'pages#help'
   match '/signup', :to => 'users#new'
+  match '/signin', :to => 'sessions#new'
+  match '/signout', :to => 'sessions#destroy'
 
   #gives root_path & root_url
   root :to => 'pages#home'

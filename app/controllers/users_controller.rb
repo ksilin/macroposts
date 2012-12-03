@@ -20,10 +20,12 @@ class UsersController < ApplicationController
     # p params[:user]
     @user = User.new(params[:user])
     if @user.save
+      sign_in @user
       redirect_to @user
       flash[:success] = "Welcome to the application"
     else
       @title = 'Sign Up'
+      # no need to worry about the errors - they are put inside the user model and can be retrieved in the view
       render :new
     end
   end
