@@ -29,8 +29,43 @@ describe "LayoutLinks" do
     response.should have_selector('title', :content => "Sign Up")
   end
 
+  describe "if signed in" do
+
+    # here we are logging in "manually", as the test_signin method does not work in integration tests for some reason
+    # will make a integration_sign in later
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      visit signin_path
+      fill_in :email, :with => @user.email
+      fill_in :password, :with => @user.password
+
+      #why don't we have to define which one?
+      click_button
+    end
+
+    it "should have a signout link" do
+      visit root_path
+      response.should have_selector(:a, :href => signout_path, :content => "Sign out")
+    end
+
+    it "should have a link to user profile" do
+      visit root_path
+      response.should have_selector(:a, :href => user_path(@user), :content => "Profile")
+    end
+
+  end
+
+  describe "if signed out" do
+
+    it "should have a signin link" do
+      visit root_path
+      response.should have_selector(:a, :href => signin_path, :content => "Sign in")
+    end
+
+  end
+
   #now we will test if hte links actually lead to the right pages
-  it "should have the right links in teh layout" do
+  it "should have the right links in the layout" do
     visit root_path
 
     click_link "Contact"
