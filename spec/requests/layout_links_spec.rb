@@ -35,12 +35,9 @@ describe "LayoutLinks" do
     # will make a integration_sign in later
     before(:each) do
       @user = FactoryGirl.create(:user)
-      visit signin_path
-      fill_in :email, :with => @user.email
-      fill_in :password, :with => @user.password
-
+      integration_sign_in(@user)
       #why don't we have to define which one?
-      click_button
+      #click_button
     end
 
     it "should have a signout link" do
