@@ -16,7 +16,9 @@ class SessionsController < ApplicationController
       # error message
     else
       sign_in user
-      redirect_to user #and redirect to profile
+      # either redirect the user to a page ha actually wanted to see, or
+      # if none specified - redirect to profile
+      redirect_back_or user
     end
   end
 

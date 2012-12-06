@@ -24,7 +24,7 @@ module SessionsHelper
   end
 
   def current_user?(user)
-      user == current_user
+    user == current_user
   end
 
 
@@ -44,9 +44,30 @@ module SessionsHelper
   end
 
   def deny_access
+    # storing the request target in the session for later redirect
+    # (actually a cookie that persists as long as hte user has the browser window open)
+    store_location
     # :notice is a shortcut to flash[:notice]
     # there is also an :error shortcut, but no :success shortcut
     redirect_to signin_path, :notice => "Please sign in to view this page"
   end
+
+
+  def redirect_back_or(default)
+    redirect_to(session[:return_to] || default)
+    clear_return_to
+  end
+
+  # the privates
+  private
+
+  def store_location
+    session[:return_to] = request.fullpath
+  end
+
+  def clear_return_to
+    session[:return_to] = nil
+  end
+
 
 end
