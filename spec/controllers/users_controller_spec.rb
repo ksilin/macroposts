@@ -230,5 +230,45 @@ describe UsersController do
 
   end
 
+  describe "authentication for edit/update pages" do
+
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+    end
+
+    describe "for non-sgned-in users" do
+
+      it "should deny access to 'edit'" do
+        get :edit, :id => @user
+        response.should redirect_to(signin_path)
+      end
+      it "should deny access to 'update'" do
+        get :update, :id => @user, :user => ()
+        response.should redirect_to(signin_path)
+      end
+    end
+
+    describe "for signed in users" do
+
+      before(:each) do
+        wrong_user = FactoryGirl.create(:user, :email => "wrong@example.com")
+        test_sign_in(wrong_user)
+      end
+
+      it "should require a matching user for 'edit'" do
+        get :edit, :id => @user
+        response.should redirect_to(root_path)
+      end
+      it "should require a matching user for 'update'" do
+        get :update, :id => @user
+        response.should redirect_to(root_path)
+      end
+
+      # TODO :check happy path as well?
+
+    end
+
+  end
+
 
 end

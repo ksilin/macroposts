@@ -1,4 +1,10 @@
 class UsersController < ApplicationController
+
+  # by default, the filters apply to every action, so we are restricting them
+  before_filter :authenticate, :only => [:edit, :update]
+  before_filter :correct_user, :only => [:edit, :update]
+
+
   def new
     @user = User.new
     @title = 'Sign Up'
@@ -30,13 +36,13 @@ class UsersController < ApplicationController
     end
   end
 
+    # the @user will be prepared by the correct_user filter
   def edit
-    @user = User.find(params[:id])
     @title = "Edit user"
   end
 
+  # the @user will be prepared by the correct_user filter
   def update
-    @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
       #update user here
       redirect_to @user
@@ -45,6 +51,17 @@ class UsersController < ApplicationController
       @title = "Edit user"
       render :edit
     end
+  end
+
+  private
+
+  def authenticate
+    deny_access unless signed_in?
+  end
+
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_path) unless current_user?(@user)
   end
 
 end

@@ -23,6 +23,11 @@ module SessionsHelper
     @current_user ||= user_from_remember_token
   end
 
+  def current_user?(user)
+      user == current_user
+  end
+
+
   def user_from_remember_token
     # the * operator - calling a method expecting two parameters with a two-element array instead
     User.authenticate_with_salt(*remember_token)
@@ -38,5 +43,10 @@ module SessionsHelper
     current_user= nil
   end
 
+  def deny_access
+    # :notice is a shortcut to flash[:notice]
+    # there is also an :error shortcut, but no :success shortcut
+    redirect_to signin_path, :notice => "Please sign in to view this page"
+  end
 
 end
