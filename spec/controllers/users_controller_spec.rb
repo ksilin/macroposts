@@ -130,4 +130,105 @@ describe UsersController do
 
   end
 
+  describe "GET 'edit'" do
+
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      test_sign_in(@user)
+    end
+
+    it "should be a success" do
+      get :edit, :id => @user
+      response.should be_success
+    end
+
+    it "should render the right template" do
+      get :edit, :id => @user
+      response.should render_template(:edit)
+    end
+
+    it "should have the right title" do
+      get :edit, :id => @user
+      response.should have_selector(:title, :content => "Edit user")
+    end
+
+    it "should have a link to change the gravatar" do
+      get :edit, :id => @user
+      gravatar_url = "http://gravatar.com/emails"
+      # TODO : how to match a href partially? - gravatar.com/emails does not match
+      response.should have_selector(:a, :href => gravatar_url, :content => "change")
+    end
+
+  end
+
+  describe "PUT 'update'" do
+
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      test_sign_in(@user)
+    end
+
+    describe "failure" do
+
+      before(:each) do
+        @attr = {:name => "", :email => "", :password => "", :password_confirmation => ""}
+        # @backup_user = @user# how to do a copy ctor - User.new(@user) seems not to be the right way -
+        #NoMethodError: undefined method `stringify_keys' for #<User:0x00000002cd4608>
+      end
+
+      it "should return success" do
+        put :update, :id => @user, :user => @attr
+        response.should be_success
+      end
+
+      it "should have the right title" do
+        put :update, :id => @user, :user => @attr
+        response.should have_selector(:title, :content => "Edit user")
+      end
+      it "should render the edit page again" do
+        put :update, :id => @user, :user => @attr
+        response.should render_template(:edit)
+      end
+      #TODO: rather than checking for inequality, should check against an earlier version of the user
+
+      it "should not change user data" do
+        put :update, :id => @user, :user => @attr
+        @user.reload
+        @user.name.should_not == @attr[:name]
+        @user.email.should_not == @attr[:email]
+      end
+
+    end
+
+    describe "success" do
+
+      before(:each) do
+        @attr = {:name => "new name", :email => "new@example.com", :password => "newpassword", :password_confirmation => "newpassword"}
+      end
+
+      # checking for the right title or for the rendered template does not work here,
+      # as on success we are redirected to the user show page
+      it "should have flash success message" do
+        put :update, :id => @user, :user => @attr
+        flash[:success].should_not be_blank
+        flash[:success].should =~ /success/i
+      end
+
+      it "should render user profile" do
+        put :update, :id => @user, :user => @attr
+        response.should redirect_to(user_path(@user))
+      end
+
+      it "should change user data" do
+        put :update, :id => @user, :user => @attr
+        @user.reload
+        @user.email.should == @attr[:email]
+        @user.name.should == @attr[:name]
+      end
+
+    end
+
+  end
+
+
 end
