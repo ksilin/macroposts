@@ -52,7 +52,6 @@ describe UsersController do
       # making the tests that specific/coupled might be problematic
       response.should have_selector('h1>img', :class => "gravatar")
     end
-
   end
 
   describe "GET 'new'" do
@@ -66,7 +65,6 @@ describe UsersController do
       response.should have_selector('title', :content => "Sign Up")
     end
   end
-
 
   describe "POST 'create'" do
 
@@ -93,7 +91,6 @@ describe UsersController do
         post :create, :user => @attr
         response.should render_template(:new)
       end
-
     end
 
     describe "success" do
@@ -125,9 +122,7 @@ describe UsersController do
         post :create, :user => @attr
         controller.should be_signed_in
       end
-
     end
-
   end
 
   describe "GET 'edit'" do
@@ -197,7 +192,6 @@ describe UsersController do
         @user.name.should_not == @attr[:name]
         @user.email.should_not == @attr[:email]
       end
-
     end
 
     describe "success" do
@@ -225,9 +219,7 @@ describe UsersController do
         @user.email.should == @attr[:email]
         @user.name.should == @attr[:name]
       end
-
     end
-
   end
 
   describe "authentication for edit/update pages" do
@@ -265,6 +257,42 @@ describe UsersController do
       end
 
       # TODO :check happy path as well?
+    end
+  end
+
+  describe "GET 'index'" do
+
+    describe "for non-signed in users" do
+      it "should deny access" do
+        get :index
+        response.should redirect_to(signin_path)
+        flash[:notice].should =~ /sign in/i
+      end
+    end
+
+    describe "for signed-in users" do
+
+      before(:each) do
+        @user = test_sign_in(FactoryGirl.create(:user))
+        second = test_sign_in(FactoryGirl.create(:user, :email => "second@example.com"))
+        third = test_sign_in(FactoryGirl.create(:user, :email => "third@example.com"))
+        @users = [@user, second, third]
+      end
+
+      it "should be successful" do
+        get :index
+        response.should be_success
+      end
+      it "should have the right title"  do
+        get :index
+        response.should have_selector(:title, :content => "All users")
+      end
+      it "should have an element for each user" do
+        get :index
+        @users.each do |user|
+          response.should have_selector(:li, :content => user.name)
+        end
+      end
 
     end
 

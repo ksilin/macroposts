@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   # by default, the filters apply to every action, so we are restricting them
-  before_filter :authenticate, :only => [:edit, :update]
+  before_filter :authenticate, :only => [:edit, :update, :index]
   before_filter :correct_user, :only => [:edit, :update]
 
 
@@ -51,6 +51,11 @@ class UsersController < ApplicationController
       @title = "Edit user"
       render :edit
     end
+  end
+
+  def index
+    @title = "All users"
+    @users = User.all
   end
 
   private
